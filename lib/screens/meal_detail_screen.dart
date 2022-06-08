@@ -12,60 +12,68 @@ class MealDetailScreen extends StatelessWidget {
     final detailMeal = myMeals.firstWhere((element) => element.id == mealId);
 
     return Scaffold(
-        appBar: AppBar(title: Text('${detailMeal.title} Recipe')),
-        body: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              Container(
-                height: 270,
-                width: double.infinity,
-                child: Image.network(
-                  detailMeal.imageUrl as String,
-                  fit: BoxFit.cover,
-                ),
+      appBar: AppBar(title: Text('${detailMeal.title} Recipe')),
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Container(
+              height: 270,
+              width: double.infinity,
+              child: Image.network(
+                detailMeal.imageUrl as String,
+                fit: BoxFit.cover,
               ),
-              //* Ingredients
-              _makeTitle('Ingredients :', context),
-              _makeContainer(
-                ListView.builder(
-                  itemBuilder: (ctx, index) => Card(
-                    color: Theme.of(context).colorScheme.secondary,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 5, horizontal: 10),
-                      child: Text(
-                        detailMeal.ingredients![index],
-                        style: const TextStyle(color: Colors.white70),
-                      ),
+            ),
+            //* Ingredients
+            _makeTitle('Ingredients :', context),
+            _makeContainer(
+              ListView.builder(
+                itemBuilder: (ctx, index) => Card(
+                  color: Theme.of(context).colorScheme.secondary,
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    child: Text(
+                      detailMeal.ingredients![index],
+                      style: const TextStyle(color: Colors.white70),
                     ),
                   ),
-                  itemCount: detailMeal.ingredients!.length,
                 ),
+                itemCount: detailMeal.ingredients!.length,
               ),
+            ),
 
-              //* Step
-              _makeTitle('Steps : ', context),
-              _makeContainer(
-                ListView.builder(
-                  itemBuilder: (context, index) => Column(
-                    children: <Widget>[
-                      ListTile(
-                        leading: CircleAvatar(
-                          child: Text('# ${(index + 1)}'),
-                        ),
-                        title: Text(
-                          detailMeal.steps![index],
-                        ),
+            //* Step
+            _makeTitle('Steps : ', context),
+            _makeContainer(
+              ListView.builder(
+                itemBuilder: (context, index) => Column(
+                  children: <Widget>[
+                    ListTile(
+                      leading: CircleAvatar(
+                        child: Text('# ${(index + 1)}'),
                       ),
-                      const Divider(),
-                    ],
-                  ),
-                  itemCount: detailMeal.steps!.length,
+                      title: Text(
+                        detailMeal.steps![index],
+                      ),
+                    ),
+                    const Divider(),
+                  ],
                 ),
+                itemCount: detailMeal.steps!.length,
               ),
-            ],
-          ),
-        ));
+            ),
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.delete),
+        onPressed: () {
+          //* Pop untuk kembali ke halam sebelumnya(BEDA DENGAN BACK BUTTON DIATAS) dengan mengirimkan parameter -> MealID
+          Navigator.of(context).pop(mealId);
+        },
+      ),
+    );
   }
 }
 
