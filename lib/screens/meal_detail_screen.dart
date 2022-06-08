@@ -4,7 +4,10 @@ import 'package:meals_app/data/list_meal.dart';
 
 class MealDetailScreen extends StatelessWidget {
   static const routeName = '/meal-detail';
-  const MealDetailScreen({Key? key}) : super(key: key);
+  final Function toggleFavorites;
+  final Function isMealFavorite;
+  const MealDetailScreen(this.toggleFavorites, this.isMealFavorite, {Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -66,12 +69,22 @@ class MealDetailScreen extends StatelessWidget {
           ],
         ),
       ),
+
+      //! Untuk Delete
+      // floatingActionButton: FloatingActionButton(
+      //   child: const Icon(Icons.delete),
+      //   onPressed: () {
+      //     //* Pop untuk kembali ke halam sebelumnya(BEDA DENGAN BACK BUTTON DIATAS) dengan mengirimkan parameter -> MealID
+      //     Navigator.of(context).pop(mealId);
+      //   },
+      // ),
+
+      //! Untuk Buat favorite
       floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.delete),
-        onPressed: () {
-          //* Pop untuk kembali ke halam sebelumnya(BEDA DENGAN BACK BUTTON DIATAS) dengan mengirimkan parameter -> MealID
-          Navigator.of(context).pop(mealId);
-        },
+        child: Icon(
+          isMealFavorite(mealId) ? Icons.star : Icons.star_border,
+        ),
+        onPressed: () => toggleFavorites(mealId),
       ),
     );
   }
